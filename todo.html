@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List task</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #itemList {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #itemList li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    #itemList li span {
+      margin-right: 8px;
+    }
+
+    #itemList li button {
+      background-color: #ff6961;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Add items</h1>
+  <input type="text" id="newItems" placeholder="Enter items">
+  <button onclick="displayItems()">Add Items</button>
+
+  <ul id="itemList"></ul>
+
+  <script>
+    function displayItems() {
+      const newItemsInput = document.getElementById('newItems');
+      const itemsText = newItemsInput.value.trim();
+
+      if (itemsText !== '') {
+        const itemList = document.getElementById('itemList');
+
+        const itemsArray = itemsText.split(',');
+
+        const nonEmptyItems = itemsArray.map(item => item.trim()).filter(item => item !== '');
+
+        nonEmptyItems.forEach(itemText => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `
+            <span>.${itemText}</span>
+            <button onclick="deleteItem(this)">Delete</button>
+          `;
+          itemList.appendChild(listItem);
+        });
+
+        newItemsInput.value = '';
+      }
+    }
+
+    function deleteItem(button) {
+      const listItem = button.parentNode;
+      const itemList = listItem.parentNode;
+      itemList.removeChild(listItem);
+    }
+  </script>
+</body>
+</html>
